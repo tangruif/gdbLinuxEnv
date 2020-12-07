@@ -4,7 +4,7 @@ usage() {
     echo "Usage:"
     echo "  qemu.sh [-k KERNEL_PATH]  [-f MINI_FS_PATH] [-u UBUNTU_FS_PATH] [-t NAME] [-p PORT]"
     echo "Description:"
-    echo "  KERNEL_PATH , 压缩内核:bzImage的路径。默认路径为../newip/Kernel/arch/x86_64/boot/bzImage"
+    echo "  KERNEL_PATH , 内核代码所在的路径。默认路径为../newip/Kernel"
     echo "  MINI_FS_PATH , 使用最小文件系统的路径。默认为./rootfs.cpio.gz。"
     echo "  UBUNTU_FS_PATH , 使用ubuntu文件系统路径，默认无，此项和-f冲突，只能指定其中一种。"
     echo "  NAME , 虚拟机网卡连接到的tap名称。若省略此项则不使用tap进行网络连接"
@@ -16,7 +16,8 @@ cur_dir=$(cd "$(dirname "$0")"; pwd)
 
 cmd="qemu-system-x86_64 "
 
-kernel_path="${cur_dir}/../newip/Kernel/arch/x86_64/boot/bzImage"
+kernel_dir_path="${cur_dir}/../newip/Kernel"
+kernel_path="/arch/x86_64/boot/bzImage"
 rootfs_cpio_path="${cur_dir}/rootfs.cpio.gz"
 ubuntu_img_path=""
 tap_name=""
@@ -26,7 +27,7 @@ while getopts k:f:u:t:p:h option
 do
     case "${option}" in
             u) ubuntu_img_path=${OPTARG};;
-            k) kernel_path=${OPTARG};;
+            k) kernel_dir_path=${OPTARG};;
             f) rootfs_cpio_path=${OPTARG};;
             t) tap_name=${OPTARG};;
             p) port=${OPTARG};;
@@ -36,7 +37,7 @@ do
 done
 
 # select kernel
-cmd=${cmd}"-kernel ${kernel_path} "
+cmd=${cmd}"-kernel ${kernel_dir_path}${kernel_path} "
 
 # select file system
 if [ $ubuntu_img_path ]
