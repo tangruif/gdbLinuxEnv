@@ -1,0 +1,3 @@
+rootfs*
+!rootfs.tar
+ubuntu-fs/ubuntu-base-16.04.6-base-amd64.tar.gz
