@@ -57,12 +57,8 @@ fi
 # select tap
 if [ $tap_name ]
 then
-    if [ $tap_name != "tap0"  ]
-    then
-        cmd=${cmd}"-net nic,macaddr=52:54:00:12:34:57 "
-    else
-        cmd=${cmd}"-net nic "
-    fi
+    macaddr="52:54:00:"`openssl rand -hex 3 | sed 's/\(..\)/\1:/g; s/.$//'`" "
+    cmd=${cmd}"-net nic,macaddr=${macaddr}"
     cmd=${cmd}"-net tap,ifname=${tap_name},script=no,downscript=no "
 else
     echo "未使用tap，多个qemu虚拟机无法直接通过ip地址互相访问"
