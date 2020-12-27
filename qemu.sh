@@ -58,8 +58,8 @@ fi
 if [ $tap_name ]
 then
     macaddr="52:54:00:"`openssl rand -hex 3 | sed 's/\(..\)/\1:/g; s/.$//'`" "
-    cmd=${cmd}"-net nic,macaddr=${macaddr}"
-    cmd=${cmd}"-net tap,ifname=${tap_name},script=no,downscript=no "
+    cmd=${cmd}"-netdev tap,id=u1,ifname=${tap_name},script=no,downscript=no "
+    cmd=${cmd}"-device e1000,netdev=u1,mac=${macaddr} "
 else
     echo "未使用tap，多个qemu虚拟机无法直接通过ip地址互相访问"
 fi
