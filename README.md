@@ -124,7 +124,7 @@
     轻量，启动迅速，命令较少
 
     ```
-    ftp://10.108.110.27/rootfs-udp.cpio.gz
+    ftp://10.108.110.33/rootfs-udp.cpio.gz
     ```
 
   * ubuntu文件系统
@@ -134,7 +134,7 @@
     启动稍慢，对内存需求较大
 
     ```
-    ftp://10.108.110.27/rootfs-ubuntu.img
+    ftp://10.108.110.33/rootfs-ubuntu.img
     ```
 
 * 自行构建
