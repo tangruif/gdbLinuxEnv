@@ -2,7 +2,7 @@
 #Create ext3 image file
 rootfs_name=rootfs.img
 
-dd if=/dev/zero of=${rootfs_name} bs=1M count=1024
+dd if=/dev/zero of=${rootfs_name} bs=1M count=4096
 mkfs.ext3 ${rootfs_name}
  
 #Copy all the files in our rootfs to image
