@@ -99,7 +99,7 @@
   * 启动qemu虚拟机，开启端口2345
 
     ```bash
-    ./qemu.sh
+    ./qemu_initrd.sh
     	-k ../Kernel \
     	-f rootfs.cpio.gz \
     	-p 2345
