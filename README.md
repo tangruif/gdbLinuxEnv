@@ -38,6 +38,8 @@
 * qemu.sh
   * 在qemu-system-x86_64的基础上，对其主要配置项进行了封装，用于运行编译得到的内核
   * ./qemu.sh -h 可查看支持的命令行参数
+* qemu_initrd.sh
+  * 主要功能与qemu.sh脚本类似，不同之处在于此脚本导入的根文件系统将以initramfs的方式供内核使用
 * kernel-gdb.sh
   * 在gdb的基础上，加上了一些固定的配置，用于单步调试在qemu中运行的内核
   * ./kernel-gdb.sh -h 可查看支持的命令行参数
@@ -57,19 +59,19 @@
 
   * Linux内核想要成功启动，需要有一个根文件系统
     * 直接使用qemu启动内核bzImage，会显示“ Kernel panic - not syncing : VFS : Unable to mount root fs on unknow block(0,0) "
-  * **启动Linux内核必备的两个条件：(1)内核文件；(2)可供内核使用的根文件系统（此文档下面会提供下载链接）**
+  * **启动Linux内核必备的两个条件：(1)内核文件；(2)可供内核使用的根文件系统（此文档下面会提供使用方式）**
 
 * 示例
 
   -k : 导入内核代码所在目录（内核默认编译结果存储在此目录下的arch/x86_64/boot/bzImage）
 
-  -f : 导入根文件系统的压缩包，需要为cpio文件
+  -f（qemu_initrd.sh） : 导入根文件系统的压缩包，需要为cpio文件
   
-  -u : 导入根文件系统的压缩包，需要为raw文件
+  -u (qemu.sh): 导入根文件系统的压缩包，需要为raw文件
 
   ``` bash
   # 使用rootfs.cpio.gz文件作为文件系统
-  ./qemu.sh \
+  ./qemu_initrd.sh \
       -k ../Kernel \
       -f rootfs.cpio.gz
   # 使用rootfs.img文件作为文件系统
@@ -77,18 +79,16 @@
       -k ../Kernel \
       -u rootfs.img
   ```
-* qemu.sh中，-f与-u选项的区别？
-
-  qemu虚拟机导入文件系统有很多种方式，我们在qemu.sh脚本中提供了两种
+* 为何还需要区分qemu_initrd.sh？
   
-  * -f : 适用于导入小型文件系统
-    * 虚拟机为纯软件模拟，可以在已有虚拟机（如vmware上）再开一个虚拟机
-    * 占用1G内存
-    * 无记忆性（原有的rootfs.cpio.gz文件不会被虚拟机修改）
-  * -u : 适用于导入较大的文件系统
-    * 虚拟机开启了kvm
-    * 占用2G内存
-    * 有记忆性，虚拟机中下载的文件会被加入到rootfs.img文件当中
+  一般情况下，将ubuntu-server作为虚拟机的根文件系统，使用qemu.sh脚本开启虚拟机并调试，是最方便的做法。
+  然而这种方法并不完美，ubuntu系统本身较大，耗费资源，除此之外，如果内核尚不稳定，经常panic，在ubuntu中体现为直接死机，不方便追踪原因。
+  因此，我们基于buildroot构建了最小文件系统，将其放在压缩包rootfs.cpio.gz当中。通过qemu_initrd.sh脚本导入此系统使用，有几个特点：
+  * 系统很小，耗费资源少，纯软件虚拟机也可轻松运行（如x86上模拟arm）
+  * 无记忆性，在虚拟机中进行的文件修改不会影响rootfs.cpio.gz本身
+  * 内核日志直接输出到屏幕，可以很方便地查看panic日志
+  
+  总体来说，这个文件系统使用上虽不方便，但仍有其不可替代性，因此保留了下来。
 
 ##### 使用gdb调试qemu中运行的内核
 
