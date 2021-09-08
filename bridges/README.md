@@ -4,10 +4,10 @@
 
 * 安装依赖
   ```bash
-  sudo apt-get install uml-utilities bridge-utils
+  sudo apt-get install uml-utilities bridge-utils virt-namager
   ```
 
-* 建立网桥，并创建四个虚拟网口tap0、tap1、tap2、tap3，通过网桥连接
+* 创建四个虚拟网口tap0、tap1、tap2、tap3，并连接到虚拟网桥virbr0
  
   ``` bash
   ./enable-bridge.sh
@@ -35,6 +35,7 @@
 
 ### 更多
 
-* 此方法仅为简易用法，通过这种方式创建桥接网络，虚拟机将无法连接外部网络
-  * 若想要连接外部网络，可将qemu.sh中tap_name变量改为空字符串，此时使用主机网络
-* 若想要更好的体验，通过virt-manager等工具创建一个带有NAT、DHCP等功能等完整网桥，并将虚拟机连接到这样的网桥上
+* 此方法借用了virt-manager自动创建的带有NAT以及DHCP功能的虚拟网桥virbr0，虚拟网口tap0~3将被连接到此虚拟网桥上
+* 可在虚拟机中通过DHCP client获取本机IP地址，或者配置一个192.168.122.0/24网段的静态IP地址，并将192.168.122.1作为默认网关
+  * 静态IP地址的配置具体需要参照本机虚拟网桥virbr0的IP地址
+
