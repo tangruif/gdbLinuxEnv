@@ -16,7 +16,7 @@ cmd="qemu-system-x86_64 "
 
 kernel_dir_path="${cur_dir}/../newip/Kernel"
 kernel_path="/arch/x86_64/boot/bzImage"
-rootfs_cpio_path="${cur_dir}/rootfs-sender.cpio.gz"
+rootfs_cpio_path="${cur_dir}/rootfs.cpio.gz"
 tap_name="tap0"
 port=1234
         
