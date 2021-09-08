@@ -139,7 +139,9 @@
 
 * 自行构建
 
-  * 见后文【参考资料】1、2
+  * 见后文【参考资料】1、2、3。参考资料中多为基于ARM64平台构建，我们则一般使用x86_64进行模拟。两个平台的文件系统构建方式基本相同，主要不同点有二：
+    * 下载/编译的buildroot软件包或者ubuntu-server需要为x86_64（AMD64）版本
+    * ARM64上的串口为ttyAMA0，对应到x86_64上为ttyS0
 
 * 基于代码库中的rootfs.tar压缩包构建
 
@@ -195,4 +197,5 @@
 
 1. https://medicineyeh.wordpress.com/2016/03/29/buildup-your-arm-image-for-qemu/
 2. http://wiki.t-firefly.com/en/ROC-RK3399-PC/linux_build_ubuntu_rootfs.html
-3. https://gist.github.com/extremecoders-re/e8fd8a67a515fee0c873dcafc81d811c
+3. https://chasinglulu.github.io/2019/07/27/%E5%88%A9%E7%94%A8Qemu-4-0%E8%99%9A%E6%8B%9FARM64%E5%AE%9E%E9%AA%8C%E5%B9%B3%E5%8F%B0/
+4. https://gist.github.com/extremecoders-re/e8fd8a67a515fee0c873dcafc81d811c
