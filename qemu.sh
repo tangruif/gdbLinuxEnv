@@ -18,7 +18,7 @@ cmd="qemu-system-x86_64 "
 kernel_dir_path="${cur_dir}/../newip/Kernel"
 kernel_path="/arch/x86_64/boot/bzImage"
 rootfs_img_path="${cur_dir}/ubuntu-fs/rootfs.img"
-tap_name="tap0"
+tap_name=""
 port=1234
         
 while getopts k:u:t:p:h option
@@ -38,7 +38,7 @@ cmd=${cmd}"-kernel ${kernel_dir_path}${kernel_path} "
 
 # 选择根文件系统
 cmd="sudo "${cmd}"-drive file=${rootfs_img_path},format=raw
-                  -append \"console=ttyS0 root=/dev/sda nokaslr\" 
+                  -append \"console=ttyS0 root=/dev/sda rw nokaslr\" 
 		  -nographic
                   -m 2048M 
                   -enable-kvm "
