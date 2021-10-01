@@ -4,7 +4,7 @@
 
 * 安装依赖
   ```bash
-  sudo apt-get install uml-utilities bridge-utils virt-namager
+  sudo apt-get install uml-utilities bridge-utils virt-manager
   ```
 
 * 创建四个虚拟网口tap0、tap1、tap2、tap3，并连接到虚拟网桥virbr0
